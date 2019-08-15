@@ -1,0 +1,1 @@
+Blockly.Msg.KruTime_READ="อ่านค่า";
