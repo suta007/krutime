@@ -1,1 +1,9 @@
-Blockly.Msg.KruTime_READ="อ่านค่า";
+Blockly.Msg.KruTime_URL="http://www.9flife.com";
+Blockly.Msg.KruTime_Read="อ่านค่า";
+Blockly.Msg.KruTime_Start="เริ่มทดลอง";
+Blockly.Msg.KruTime_GateNum="จำนวนเกจ :";
+Blockly.Msg.KruTime_ReadTime="รับค่าเวลา";
+Blockly.Msg.KruTime_Gate="เกทที่ :";
+Blockly.Msg.KruTime_Stop="หยุดทดลอง";
+Blockly.Msg.KruTime_Clear="ล้างหน่วยความจำ";
+Blockly.Msg.KruTime_Title="KruTime";
