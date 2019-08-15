@@ -23,7 +23,7 @@ class KRUTIME : public Device{
 		TickType_t tickcnt, polling_tickcnt;
     uint8_t pointer[3];
     uint8_t buff[3];
-    uint8_t PinNum;
+    uint8_t PinNum,GateNum;
 	bool BoolStart=false;
 
 		int read_value = 0;

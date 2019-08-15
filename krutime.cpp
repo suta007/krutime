@@ -98,11 +98,15 @@ void KRUTIME::process(Driver *drv) {
         tickcnt = get_tickcnt();
 
         pointer[0]=0x03;
-        pointer[1]=PinNum;
+        pointer[1]=GateNum;
 
         if (i2c->read(channel, address, pointer, 2, buff, 3) == ESP_OK) {
           int res = (buff[0]<<16) | (buff[1]<<8) |buff[2];
-              read_value = res;
+              if(res==0){
+                state=s_error;
+              }else{
+                read_value = res;
+              }
         } else{
           state = s_error;
           //read_value=6;
@@ -214,7 +218,7 @@ int KRUTIME::getRawValue(void){
 }
 
 int KRUTIME::getGateTime(uint8_t num){
-    PinNum = num;
+    GateNum = num;
     StateFlag=s_ReadPinTime;
     return read_value;
 }
