@@ -33,7 +33,7 @@ class KRUTIME : public Device{
 		
 		// method
 		uint32_t getRawValue(void) ;
-		void testfunction();
+		void testfunction(void);
 };
 
 #endif
