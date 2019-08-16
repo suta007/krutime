@@ -16,7 +16,7 @@ uint8_t sDetect;
 uint8_t cmdBuff[2], dataBuff[4], pnt[6];
 
 uint32_t cTime=0, sTime=0;
-int8_t NumPin, ReadPin;
+uint8_t NumPin, ReadPin;
 
 bool StartFlag = false, ClearEEProm = false ,ReadFlag = false;
 
@@ -32,7 +32,8 @@ void setup() {
   
   pinMode(RefPin, INPUT);
   sDetect = digitalRead(RefPin);
-  Wire.begin(0x0F);                // join i2c bus with address #8
+  Wire.begin(0x0F);
+  Wire.setClock(400000);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent); // register event
 }
@@ -73,7 +74,7 @@ void loop() {
     }
     digitalWrite(TrigPin, HIGH);
     StartFlag = false;
-    NumPin=-1;
+    NumPin=0;
     delay(200);
     digitalWrite(TrigPin, LOW);
   }else{
@@ -93,7 +94,7 @@ void requestEvent() {
     ReadPin=0;
   }
 
-  if(pnt[0] == KruF_START && NumPin>0 && StartFlag = false){
+  if(pnt[0] == KruF_START && NumPin>0){
     buff[0] = NumPin+1;
     Wire.write(buff,1);
     StartFlag = true;

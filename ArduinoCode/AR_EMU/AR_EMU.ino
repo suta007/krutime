@@ -7,12 +7,13 @@
 
 uint8_t NumPin=0, ReadPin=0;
 uint8_t pnt[6];
-
+//int InitTime,MyTime;
 void setup() {
   Wire.begin(0x0F);
+  Wire.setClock(400000);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
-
+ // InitTime=millis();
 }
 
 void loop() {
@@ -47,6 +48,7 @@ void receiveEvent(int howMany){
 
 void requestEvent() {
   unsigned char buff[3];
+  //MyTime = millis() - InitTime;
   if(pnt[0] == KruF_Read && ReadPin >0){
     unsigned char EEPromAddrRead = ReadPin*3;
     buff[0] = 0;
@@ -55,7 +57,7 @@ void requestEvent() {
     Wire.write(buff,3);
     ReadPin=0;
   }
-  if(pnt[0] == KruF_START && NumPin>-1){
+  if(pnt[0] == KruF_START && NumPin>0){
     buff[0] = NumPin+1;
     Wire.write(buff,1);
     //StartFlag = true;
