@@ -12,7 +12,7 @@ uint8_t pnt[6];
 
 //int InitTime,MyTime;
 void setup() {
- // Serial.begin(115200);
+  //Serial.begin(115200);
   Wire.begin(0x0F);
   Wire.setClock(400000);
   Wire.onReceive(receiveEvent);
@@ -49,9 +49,9 @@ void receiveEvent(int howMany){
         pnt[i] = Wire.read(); // receive byte as a character
         
       // byte c = Wire.read();
-       //Serial.print(i,DEC);
-       //Serial.print("="); 
-       //Serial.println(pnt[i],DEC);
+      // Serial.print(i,DEC);
+      // Serial.print("="); 
+      // Serial.println(pnt[i],DEC);
 
        
        i++;
