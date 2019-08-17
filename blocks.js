@@ -39,7 +39,8 @@ Blockly.Blocks["KruTime.start2"] = {
       .appendField(Blockly.Msg.KruTime_Start)
       .appendField(Blockly.Msg.KruTime_GateNum);
     this.setInputsInline(true);
-    this.setOutput(true, "Boolean");
+    // this.setOutput(true, "Boolean");
+    this.setOutput(true, "Number");
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl(Blockly.Msg.KruTime_URL);

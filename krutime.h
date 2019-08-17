@@ -23,7 +23,7 @@ private:
   } state,
       StateFlag;
   TickType_t tickcnt, polling_tickcnt;
-  uint8_t pointer[3];
+  uint8_t pointer[2];
   uint8_t buff[3];
   uint8_t PinNum, GateNum, RetPin;
   bool BoolStart = false, BoolStart2 = false, RetStart = false,

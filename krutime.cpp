@@ -121,6 +121,7 @@ void KRUTIME::process(Driver *drv) {
          RetPin=buff[0];
         } else {
           state = s_error;
+          RetPin=99;
         }
       }
     }

@@ -11,9 +11,10 @@
 #define KruF_Read   0x03
 #define KruF_Clear  0x04
 
+uint8_t initPin = 4;
 uint8_t sDetect;
 
-uint8_t cmdBuff[2], dataBuff[4], pnt[6];
+uint8_t pnt[6];
 
 uint32_t cTime=0, sTime=0;
 uint8_t NumPin, ReadPin;
@@ -23,7 +24,7 @@ bool StartFlag = false, ClearEEProm = false ,ReadFlag = false;
 void setup() {
   //Serial.begin(9600);
 
-  for(uint8_t i=0; i<=12; i++){
+  for(uint8_t i=initPin; i<=12; i++){
     pinMode(i, INPUT);
   }
 
@@ -31,7 +32,8 @@ void setup() {
   digitalWrite(TrigPin, LOW);
   
   pinMode(RefPin, INPUT);
-  sDetect = digitalRead(RefPin);
+  //sDetect = digitalRead(RefPin);
+  sDetect = HIGH;
   Wire.begin(0x0F);
   Wire.setClock(400000);
   Wire.onReceive(receiveEvent);
@@ -48,10 +50,10 @@ void loop() {
 
   if(StartFlag == true && NumPin > 0){
     bool Wait = true;
-    for(int i=0; i<=NumPin; i++){
+    for(int i=initPin; i<NumPin; i++){
         while(StartFlag && Wait){
           if(digitalRead(i)== sDetect){
-            if(i==0){
+            if(i==initPin){
                 sTime = millis();
             }else{
                 unsigned char buff[3];
@@ -86,7 +88,7 @@ void loop() {
 void requestEvent() {
   unsigned char buff[3];
   if(pnt[0] == KruF_Read && ReadPin >0){
-    unsigned char EEPromAddrRead = ReadPin*3;
+    unsigned char EEPromAddrRead = (ReadPin+initPin)*3;
     buff[0] = EEPROM.read(EEPromAddrRead);
     buff[1] = EEPROM.read(EEPromAddrRead+1);
     buff[2] = EEPROM.read(EEPromAddrRead+2);
@@ -95,9 +97,10 @@ void requestEvent() {
   }
 
   if(pnt[0] == KruF_START && NumPin>0){
-    buff[0] = NumPin+1;
+    buff[0] = NumPin;
     Wire.write(buff,1);
-    StartFlag = true;
+    NumPin +=initPin;
+    //StartFlag = true;
   }
 }
 
@@ -112,7 +115,7 @@ void receiveEvent(int howMany) {
   
     if(pnt[0] == KruF_START){
       //StartFlag = true;
-      NumPin = pnt[1]-1;
+      NumPin = pnt[1];
     }else if(pnt[0] == KruF_STOP){
       StartFlag = false;
     }else if(pnt[0] == KruF_Read){

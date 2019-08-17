@@ -5,15 +5,15 @@
 #define KruF_Read   0x03
 #define KruF_Clear  0x04
 #define I2C_addr    0x0F
-#define Emu_int     8
+#define Emu_int     18
 
-uint8_t num=5;
+uint8_t num=4;
 byte a,b,c;
 uint32_t Buff;
 bool CheckByte=false;
 int error_code;
 void setup() {
-  Wire.begin(); 
+  Wire.begin(4,5); 
   Serial.begin(9600);
   pinMode(Emu_int, INPUT);
   Serial.println("Connecting");
@@ -21,11 +21,11 @@ void setup() {
     ;
   }
   
- Serial.println("Clear EEPROM");
+ /*Serial.println("Clear EEPROM");
   Wire.beginTransmission(I2C_addr); // transmit to device #8
   Wire.write(KruF_Clear);        // sends five bytes
   Wire.endTransmission();    // stop transmitting
-
+*/
   delay(1000);
   Serial.println("Send Start Cmd");
   Wire.beginTransmission(I2C_addr); // transmit to device #8
