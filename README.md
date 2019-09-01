@@ -1,6 +1,6 @@
 # KruTime
 
-Hi I'm a newbie try to use github
+Plug-in นี้ทำใช้เอง เพื่อใช้ประกวดโครงการ Krukid
+สามารถเอาไปใช้ หรือ แก้ไขได้ครับ
 
-Plug-in นี้ยังไม่เสร็จครับ
-ทำเพื่อใช้ประกวดโครงการ Krukid
+> By Kritsadapong Suta
