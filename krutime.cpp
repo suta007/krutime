@@ -66,15 +66,32 @@ void KRUTIME::process(Driver *drv) {
     if (is_tickcnt_elapsed(tickcnt, 10)) {
       tickcnt = get_tickcnt();
       if (BoolRead == true) {
-        pointer[0] = 0x03;
+        uint8_t rBuff0[2], rBuff1[2], rBuff2[2];
+
         pointer[1] = GateNum;
-        memset(buff, 0, sizeof(buff));
-        if (i2c->read(channel, address, pointer, 2, buff, 3) == ESP_OK) {
-          int res = (buff[0] << 16) | (buff[1] << 8) | buff[2];
-          read_value = res;
-          BoolRead = false;
+
+        pointer[0] = 0x30;
+        if (i2c->read(channel, address, pointer, 2, rBuff0, 2) == ESP_OK) {
+          pointer[0] = 0x31;
+          if (i2c->read(channel, address, pointer, 2, rBuff1, 2) == ESP_OK) {
+            pointer[0] = 0x32;
+            if (i2c->read(channel, address, pointer, 2, rBuff2, 2) == ESP_OK) {
+              int res = rBuff0[0];
+              res = (res << 8) | rBuff1[0];
+              res = (res << 8) | rBuff2[0];
+              read_value = res;
+              BoolRead = false;
+            } else {
+              state = s_error;
+              read_value = 77;
+            }
+          } else {
+            state = s_error;
+            read_value = 88;
+          }
         } else {
           state = s_error;
+          read_value = 99;
         }
       }
     }
@@ -110,18 +127,18 @@ void KRUTIME::process(Driver *drv) {
         pointer[0] = 0x01;
         pointer[1] = PinNum;
         if (i2c->read(channel, address, pointer, 2, buff, 1) == ESP_OK) {
-         /* if (buff[0] == pointer[1]) {
-            RetStart = true;
-            BoolStart2 = false;
-          } else {
-            RetStart = false;
-            state = s_error;
-          }
-          */
-         RetPin=buff[0];
+          /* if (buff[0] == pointer[1]) {
+             RetStart = true;
+             BoolStart2 = false;
+           } else {
+             RetStart = false;
+             state = s_error;
+           }
+           */
+          RetPin = buff[0];
         } else {
           state = s_error;
-          RetPin=99;
+          RetPin = 99;
         }
       }
     }
@@ -189,7 +206,7 @@ void KRUTIME::SetGatePin(uint8_t num) {
   BoolRead = true;
 }
 
-int KRUTIME::getGateTime() { return read_value; }
+int KRUTIME::getGateTime(void) { return read_value; }
 /*
 void KRUTIME::StartTime(uint8_t num){
     PinNum = num;
@@ -201,7 +218,7 @@ uint8_t KRUTIME::StartTime2(uint8_t num) {
   PinNum = num;
   StateFlag = s_StartTime2;
   BoolStart2 = true;
-  //return RetStart;
+  // return RetStart;
   return RetPin;
 }
 

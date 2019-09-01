@@ -7,7 +7,7 @@
 #define I2C_addr    0x0F
 #define Emu_int     18
 
-uint8_t num=4;
+uint8_t num=5;
 byte a,b,c;
 uint32_t Buff;
 bool CheckByte=false;
